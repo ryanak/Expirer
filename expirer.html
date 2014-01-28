@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Expirer</title>
+</head>
+<body>
+<div id="thing">I'm here</div>
+</body>
+</html>
+<script>
+function Expirer(options) {
+    this.start = new Date(options.start);
+    this.end = new Date(options.end);
+    this.selector = options.selector;
+    var now = new Date();
+    var elem = [];
+    if (options.selector.indexOf("#") > -1) {
+        options.selector = options.selector.split("#")[1];
+        elem[0] = document.getElementById(options.selector);
+        if (now > this.end) {
+            elem[0].style.display = "none";
+        }
+    } else if (options.selector.indexOf(".") > -1) {
+        options.selector = options.selector.split(".")[1];
+        elem = document.getElementsByClassName(options.selector);
+        if (now > this.end) {
+            for (var i in elem) {
+                elem[i].style.display = "none";
+            }
+        }
+    }
+    setInterval(Expirer(options), 5000);
+}
+
+var start = new Expirer(
+{
+    selector: '#thing',
+    end: "January 2, 2014"
+}
+);
+</script>
